@@ -41,7 +41,12 @@ namespace StrongNameBridge
             obj.Set(propertyName, value);
         }
 
-        public void CreateListener(Guid objectKey, string eventName)
+        public void CreateListener(Guid objectKey, string eventName, Action handler)
+        {
+            var obj = _objectCache.Get(objectKey);
+            obj.AddEvent(eventName, handler);
+        }
+
         private readonly string _dllName;
         private readonly Assembly _loadedLibrary;
         private readonly ObjectCache _objectCache = new ObjectCache();
