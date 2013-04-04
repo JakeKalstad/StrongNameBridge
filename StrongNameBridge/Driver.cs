@@ -10,7 +10,7 @@ namespace StrongNameBridge
         {
             _dllName = dllName;
             AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.AssemblyResolve += (s, e) => LoadFromPath(e.Name, installationPath);
+            currentDomain.AssemblyResolve += (s, e) => LoadDll(e.Name, installationPath);
             _loadedLibrary = LoadDll(installationPath, dllName);
         }
 
@@ -50,26 +50,13 @@ namespace StrongNameBridge
         private readonly string _dllName;
         private readonly Assembly _loadedLibrary;
         private readonly ObjectCache _objectCache = new ObjectCache();
-         
-
-        private static Assembly LoadFromPath(string dllName, string installPath)
-        {
-            return LoadDll(dllName, installPath);
-        }
+          
 
         private static Assembly LoadDll(string dllName, string installPath)
         {
             var assemblyPath = Path.Combine(installPath, string.Format("{0}.dll", new AssemblyName(dllName).Name));
             if (!File.Exists(assemblyPath)) throw new Exception(string.Format("Assembly path for {0} not found", assemblyPath));
-
             return Assembly.LoadFrom(assemblyPath);
         }
     }
-}
-/* 
- 
- * //var eventType = caControl.GetType().GetEvent("m_ATekEditorPartEditedEvent").EventHandlerType;
- * //var del = Delegate.CreateDelegate(eventType, this, "SaveEdit", false);
- * //caControl.GetType().GetEvent("m_ATekEditorPartEditedEvent").AddEventHandler(caControl, del);
-    
-*/
+} 
