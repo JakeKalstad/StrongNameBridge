@@ -25,32 +25,31 @@ namespace StrongNameBridge
 
         public T CallMethod<T>(Guid objectKey, string methodName, object[] arguments = null)
         {
-            var obj = _objectCache.Get(objectKey);
+            var obj = _objectCache[objectKey];
             return (T)obj.Call(methodName, arguments);
         }
 
         public T Get<T>(Guid objectKey, string propertyName)
         {
-            var obj =_objectCache.Get(objectKey);
+            var obj =_objectCache[objectKey];
             return obj.Get<T>(propertyName);
         }
 
         public void Set(Guid objectKey, string propertyName, object value)
         {
-            var obj = _objectCache.Get(objectKey);
+            var obj = _objectCache[objectKey];
             obj.Set(propertyName, value);
         }
 
         public void CreateListener(Guid objectKey, string eventName, Action handler)
         {
-            var obj = _objectCache.Get(objectKey);
+            var obj = _objectCache[objectKey];
             obj.AddEvent(eventName, handler);
         }
 
         private readonly string _dllName;
         private readonly Assembly _loadedLibrary;
-        private readonly ObjectCache _objectCache = new ObjectCache();
-          
+        private readonly ObjectCache _objectCache = new ObjectCache();          
 
         private static Assembly LoadDll(string dllName, string installPath)
         {

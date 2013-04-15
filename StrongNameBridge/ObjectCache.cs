@@ -10,11 +10,6 @@ namespace StrongNameBridge
             var objectKey = Guid.NewGuid();
             Add(objectKey, obj);
             return objectKey;
-        } 
-
-        public DynamicObject Get(Guid objectKey)
-        {
-            return this[objectKey];
-        }
+        }  
     }
 }
